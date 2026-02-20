@@ -4,15 +4,13 @@ using UnityEngine.EventSystems;
 public class Block : MonoBehaviour
 {
     public const int Size = 5;
-
     private readonly Vector3 inputOffSet = new(0.0f, 2.0f, 0.0f);
-
     [SerializeField] private Board board;
     [SerializeField] private Blocks blocks;
-
     [SerializeField] private Cell cellPrefab;
-
+    
     private int polyominoIndex;
+    private int colorIndex;
 
     private readonly Cell[,] cells = new Cell[Size, Size];
 
@@ -53,13 +51,15 @@ public class Block : MonoBehaviour
     public void Show(int polyominoIndex)
     {
         this.polyominoIndex = polyominoIndex;
+        
+        colorIndex = UnityEngine.Random.Range(0, 6);
+        
         Hide();
-
         var polyomino  = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
         center = new Vector2(poluominoColumns * 0.5f, polyominoRows * 0.5f);
-
+        
         for (var r = 0; r < polyominoRows; ++r)
         {
             for (var c = 0; c < poluominoColumns; ++c)
@@ -67,6 +67,8 @@ public class Block : MonoBehaviour
                 if (polyomino[r,c] > 0)
                 {
                     cells[r, c].transform.localPosition = new(c - center.x + 0.5f, r - center.y + 0.5f, 0.0f);
+
+                    cells[r, c].SetColor(colorIndex);
                     cells[r, c].Normal();
                 }
             }
@@ -84,17 +86,15 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+     private void OnMouseDown()
     {
         inputPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
         transform.localPosition = position + inputOffSet;
         transform.localScale = Vector3.one;
-
         currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
-        board.Hover(currentDragPoint, polyominoIndex);
-        previousDragPoint = currentDragPoint;
 
+        board.Hover(currentDragPoint, polyominoIndex, colorIndex);
+        previousDragPoint = currentDragPoint;
         previousMousePosition = Input.mousePosition;
     }
 
@@ -113,8 +113,9 @@ public class Block : MonoBehaviour
 
             if(currentDragPoint != previousDragPoint)
             {
-                previousDragPoint = currentDragPoint;
-                board.Hover(currentDragPoint, polyominoIndex);
+               previousDragPoint = currentDragPoint;
+
+                board.Hover(currentDragPoint, polyominoIndex, colorIndex);
             }
         }
     }
@@ -122,19 +123,14 @@ public class Block : MonoBehaviour
     private void OnMouseUp()
     {
         previousMousePosition = Vector3.positiveInfinity;
-
         currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
 
-        if(board.Place(currentDragPoint, polyominoIndex) == true)
+        if(board.Place(currentDragPoint, polyominoIndex, colorIndex) == true)
         {
             gameObject.SetActive(false);
-
             blocks.Remove();
         }
-            
         transform.localPosition = position;
         transform.localScale = scale;
-
-
     }
 }

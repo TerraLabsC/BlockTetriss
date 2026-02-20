@@ -27,8 +27,10 @@ public class Blocks : MonoBehaviour
         for (var i = 0; i < blocks.Length; ++i)
         {
             blocks[i].gameObject.SetActive(true);
-            blocks[i].Show(0);
 
+            int randomIndex = UnityEngine.Random.Range(0, Polyominus.Length);
+            
+            blocks[i].Show(randomIndex);
             ++blockCount;
         }
     }

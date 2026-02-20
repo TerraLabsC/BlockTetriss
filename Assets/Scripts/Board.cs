@@ -6,16 +6,11 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public const int Size = 15;
-
+  public const int Size = 15;
     [SerializeField] private Cell cellPrefab;
-
     [SerializeField] private Transform cellTransform;
-
     private readonly Cell[,] cells = new Cell[Size, Size];
-
     private readonly int[,] data = new int[Size, Size];
-
     private readonly List<Vector2Int> hoverPoints = new();
 
     private readonly List<int> fullLineColums = new();
@@ -34,18 +29,16 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void Hover(Vector2Int point, int polyominoIndex)
+    public void Hover(Vector2Int point, int polyominoIndex, int colorIndex)
     {
         var polyomino = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
-
         Unhover();
         HoverPoints(point, polyominoRows, poluominoColumns, polyomino);
-
         if(hoverPoints.Count > 0)
         {
-            Hover();
+            Hover(colorIndex);
         }
     }
 
@@ -80,11 +73,13 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    private void Hover()
+    private void Hover(int colorIndex)
     {
         foreach (var hoverPoint in hoverPoints)
         {
             data[hoverPoint.y, hoverPoint.x] = 1;
+
+            cells[hoverPoint.y, hoverPoint.x].SetColor(colorIndex);
             cells[hoverPoint.y, hoverPoint.x].Hover();
         }
     }
@@ -99,41 +94,57 @@ public class Board : MonoBehaviour
         hoverPoints.Clear();
     }
 
-    public bool Place(Vector2Int point, int polyominoIndex)
+    public bool Place(Vector2Int point, int polyominoIndex, int colorIndex)
     {
         var polyomino = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
-
         Unhover();
         HoverPoints(point, polyominoRows, poluominoColumns, polyomino);
-
         if (hoverPoints.Count > 0)
         {
-            Place(point, poluominoColumns, polyominoRows);
+            Place(point, poluominoColumns, polyominoRows, colorIndex);
             return true;
         }
-
         return false;
     }
 
-    private void Place(Vector2Int point, int poluominoColumns, int polyominoRows)
+    private void Place(Vector2Int point, int poluominoColumns, int polyominoRows, int colorIndex)
     {
         foreach (var hoverPoint in hoverPoints)
         {
             data[hoverPoint.y, hoverPoint.x] = 1;
+
+            cells[hoverPoint.y, hoverPoint.x].SetColor(colorIndex);
             cells[hoverPoint.y, hoverPoint.x].Normal();
         }
-
         ClearFullLines(point, poluominoColumns, polyominoRows);
-
         hoverPoints.Clear();
     }
 
     private void ClearFullLines(Vector2Int point, int poluominoColumns, int polyominoRows)
     {
-        FullLineColums(point.x, point.x + poluominoColumns);
-        FullLineRows(point.y, point.y + polyominoRows);
+        var fromColums = Mathf.Max(0, point.x);
+        var toColumsExclusive = Mathf.Min(Size, point.x + poluominoColumns);
+        
+        var fromRow = Mathf.Max(0, point.y);
+        var toRowExclusive = Mathf.Min(Size, point.y + polyominoRows);
+
+        FullLineColums(fromColums, toColumsExclusive);
+        FullLineRows(fromRow, toRowExclusive);
+
+        const int squareSize = 5;
+        int offset = Size - squareSize;
+        
+        CheckSquare(0, 0, squareSize); // Левый нижний
+        
+        CheckSquare(0, offset, squareSize); // Левый верхний
+        
+        CheckSquare(offset, 0, squareSize); // Правый нижний
+        
+        CheckSquare(offset, offset, squareSize); // Правый верхний
+
+        CheckSquare(offset / 2, offset / 2, squareSize); // Центральный
 
         ClearFullLinesColums();
         ClearFullLinesRows();
@@ -207,6 +218,36 @@ public class Board : MonoBehaviour
             {
                 data[r, c] = 0;
                 cells[r, c].Hide();
+            }
+        }
+    }
+
+    private void CheckSquare(int startX, int startY, int size)
+    {
+        bool isFull = true;
+
+        for (var r = startY; r < startY + size; ++r)
+        {
+            for (var c = startX; c < startX + size; ++c)
+            {
+                if (data[r, c] == 0)
+                {
+                    isFull = false;
+                    break;
+                }
+            }
+            if (!isFull) break;
+        }
+
+        if (isFull)
+        {
+            for (var r = startY; r < startY + size; ++r)
+            {
+                for (var c = startX; c < startX + size; ++c)
+                {
+                    data[r, c] = 0;
+                    cells[r, c].Hide();
+                }
             }
         }
     }

@@ -1,0 +1,520 @@
+fileFormatVersion: 2
+guid: 5e2af44d41ed2ce479d8918413d54291
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4065424392376609257
+    second: NameGame_0
+  - first:
+      213: 1021278035981504409
+    second: NameGame_1
+  - first:
+      213: -5976852113662314554
+    second: NameGame_2
+  - first:
+      213: -8968335341158519901
+    second: NameGame_3
+  - first:
+      213: -7327417779319709149
+    second: NameGame_4
+  - first:
+      213: 1808643987347169348
+    second: NameGame_5
+  - first:
+      213: -7134119486077752178
+    second: NameGame_6
+  - first:
+      213: -4103338489627042174
+    second: NameGame_7
+  - first:
+      213: -7381604021567334743
+    second: NameGame_8
+  - first:
+      213: -7660971721336644632
+    second: NameGame_9
+  - first:
+      213: -6796890158443160377
+    second: NameGame_10
+  - first:
+      213: -807267275724137
+    second: NameGame_11
+  - first:
+      213: 4122589293983535977
+    second: NameGame_12
+  - first:
+      213: -3747140047631126600
+    second: NameGame_13
+  - first:
+      213: -1237507558944042431
+    second: NameGame_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NameGame_0
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 768
+        width: 208
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9e0d002f94b6830800000000000000
+      internalID: 4065424392376609257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_1
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 763
+        width: 251
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99f069776fe4c2e00800000000000000
+      internalID: 1021278035981504409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_2
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 768
+        width: 201
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c77d1a5ba4fd0da0800000000000000
+      internalID: -5976852113662314554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_3
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 758
+        width: 212
+        height: 284
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ab2aa306821a8380800000000000000
+      internalID: -8968335341158519901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_4
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 768
+        width: 239
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32264ce1a58cf4a90800000000000000
+      internalID: -7327417779319709149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_5
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 753
+        width: 243
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44069f6bf18991910800000000000000
+      internalID: 1808643987347169348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_6
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 695
+        width: 366
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8ca42720248efc90800000000000000
+      internalID: -7134119486077752178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_7
+      rect:
+        serializedVersion: 2
+        x: 1935
+        y: 758
+        width: 234
+        height: 284
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28e979452630e07c0800000000000000
+      internalID: -4103338489627042174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_8
+      rect:
+        serializedVersion: 2
+        x: 2202
+        y: 758
+        width: 290
+        height: 491
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a652e570464f8990800000000000000
+      internalID: -7381604021567334743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_9
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 146
+        width: 420
+        height: 465
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eb9a6b1fc2cea590800000000000000
+      internalID: -7660971721336644632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_10
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 146
+        width: 352
+        height: 465
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc95a099689ca1a0800000000000000
+      internalID: -6796890158443160377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_11
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 146
+        width: 420
+        height: 465
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79aaac07bc12dfff0800000000000000
+      internalID: -807267275724137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_12
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 146
+        width: 369
+        height: 482
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96397b6de11663930800000000000000
+      internalID: 4122589293983535977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_13
+      rect:
+        serializedVersion: 2
+        x: 1696
+        y: 128
+        width: 410
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bf6e49dafb7ffbc0800000000000000
+      internalID: -3747140047631126600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NameGame_14
+      rect:
+        serializedVersion: 2
+        x: 2153
+        y: 128
+        width: 373
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14297468e6d73dee0800000000000000
+      internalID: -1237507558944042431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      NameGame_0: 4065424392376609257
+      NameGame_1: 1021278035981504409
+      NameGame_10: -6796890158443160377
+      NameGame_11: -807267275724137
+      NameGame_12: 4122589293983535977
+      NameGame_13: -3747140047631126600
+      NameGame_14: -1237507558944042431
+      NameGame_2: -5976852113662314554
+      NameGame_3: -8968335341158519901
+      NameGame_4: -7327417779319709149
+      NameGame_5: 1808643987347169348
+      NameGame_6: -7134119486077752178
+      NameGame_7: -4103338489627042174
+      NameGame_8: -7381604021567334743
+      NameGame_9: -7660971721336644632
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

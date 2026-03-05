@@ -77,7 +77,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 2, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &6891884227364873152
 MonoBehaviour:
@@ -91,4 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d581737eff33545952f777cd3646d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
+  blocks: {fileID: 0}
   cellPrefab: {fileID: 1917259276883324699, guid: 5e6b2ed265131a545a6c9308a606cf85, type: 3}

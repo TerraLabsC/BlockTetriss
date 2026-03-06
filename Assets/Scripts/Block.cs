@@ -21,9 +21,6 @@ public class Block : MonoBehaviour
     private Vector2Int currentDragPoint;
     private Camera mainCamera;
     private Vector2 center;
-
-    public GameObject Taining;
-    public GameObject TainingFinger;
     
     private bool hasBeenPositioned = false;
 
@@ -32,6 +29,8 @@ public class Block : MonoBehaviour
     [SerializeField] private float colliderScaleFactor = 1f;
 
     private int currentPolyominoIndex;
+
+    [SerializeField] private GameObject Finger;
 
     private void Awake()
     {
@@ -162,11 +161,7 @@ public class Block : MonoBehaviour
         
         OffsetFigureForDrag();
 
-        if(Taining != null && TainingFinger != null)
-        {
-            Taining.SetActive(false);
-            TainingFinger.SetActive(false);
-        }
+        Finger.SetActive(false);
     }
     private void OffsetFigureForDrag()
     {
@@ -233,6 +228,32 @@ public class Block : MonoBehaviour
             {
                 transform.localPosition = position;
                 transform.localScale = scale;
+            }
+        }
+    }
+
+    public void LearningBlocks()
+    {
+        if (Input.GetKey(KeyCode.R))
+        {
+            SetChildSortingOrder(8);
+
+            previousMousePosition = Vector3.positiveInfinity;
+
+            UpdateDragPoint();
+
+            if (board.Place(currentDragPoint, polyominoIndex, colorIndex))
+            {
+                gameObject.SetActive(false);
+                blocks.Remove();
+            }
+            else
+            {
+                if (hasBeenPositioned)
+                {
+                    transform.localPosition = position;
+                    transform.localScale = scale;
+                }
             }
         }
     }

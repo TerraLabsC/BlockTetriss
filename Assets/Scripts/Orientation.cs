@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Orientation : MonoBehaviour
 {
+    public System.Action<Vector3> OnOrientationChanged;
+
     private Camera _camera;
     private bool _isHorizontal = false;
     private bool _isInitialized = false;
@@ -10,8 +12,8 @@ public class Orientation : MonoBehaviour
     [SerializeField] private Canvas CanvasVertical;
     [SerializeField] private float CameraFOVHorizontal;
     [SerializeField] private float CameraFOVVertical;
-    [SerializeField] private Vector3 PositionCameraHorizontal;
-    [SerializeField] private Vector3 PositionCameraVertical;
+    public Vector3 PositionCameraHorizontal;
+    public Vector3 PositionCameraVertical;
     [SerializeField] private PositionPolyominus blocks;
     [SerializeField] private GameObject PanelHorizontalPolyominus;
     [SerializeField] private GameObject PanelVerticalPolyominus;
@@ -20,11 +22,12 @@ public class Orientation : MonoBehaviour
 
     private Vector3 PositionCateHorizontal;
     private Vector3 PositionCateVertical;
-
     [SerializeField] private Vector3 PositionCateMove;
     [SerializeField] private GameObject CountpPanel;
     [SerializeField] private Vector3 PositionCountHorizontal;
     [SerializeField] private Vector3 PositionCountVertical;
+
+    public bool IsHorizontal => _isHorizontal;
 
     private void Start()
     {
@@ -43,10 +46,7 @@ public class Orientation : MonoBehaviour
 
         bool shouldBeHorizontal = Screen.width > Screen.height;
 
-        if (shouldBeHorizontal != _isHorizontal || !_isInitialized)
-        {
-            UpdateOrientation(shouldBeHorizontal);
-        }
+        UpdateOrientation(shouldBeHorizontal); 
     }
 
     private void UpdateOrientation(bool isHorizontal)
@@ -57,7 +57,6 @@ public class Orientation : MonoBehaviour
         if (isHorizontal)
         {
             Debug.Log("Переключение на горизонтальный режим");
-            
             _camera.orthographicSize = CameraFOVHorizontal;
             _camera.transform.position = PositionCameraHorizontal;
 
@@ -69,15 +68,16 @@ public class Orientation : MonoBehaviour
 
             CatelHorizontalPolyominus.transform.position = PositionCateHorizontal;
             CatelVerticalPolyominus.transform.position = PositionCateMove;
-            
+
             blocks.SetOrientation(ScreenOrientation.Vertical);
 
             CountpPanel.transform.position = PositionCountHorizontal;
+
+            OnOrientationChanged?.Invoke(PositionCameraHorizontal);
         }
         else
         {
             Debug.Log("Переключение на вертикальный режим");
-            
             _camera.orthographicSize = CameraFOVVertical;
             _camera.transform.position = PositionCameraVertical;
 
@@ -92,6 +92,8 @@ public class Orientation : MonoBehaviour
             blocks.SetOrientation(ScreenOrientation.Horizontal);
 
             CountpPanel.transform.position = PositionCountVertical;
+
+            OnOrientationChanged?.Invoke(PositionCameraVertical);
         }
     }
 }

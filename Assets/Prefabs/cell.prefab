@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563606414045832107}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35,6 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7111811917904128132
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -53,6 +54,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,9 +77,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 8
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 2535363473872713102, guid: bdffecd9caa374c498072f2b82dc8feb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,7 +91,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1917259276883324699
 MonoBehaviour:
@@ -114,3 +118,12 @@ MonoBehaviour:
   - {fileID: -2381367955356210397, guid: 916e4ac4e7fd2ff468a18a9ee0ef8fa5, type: 3}
   - {fileID: 4650102136575230409, guid: ffdfc09aa9c83f0489bbaf1c78f60201, type: 3}
   - {fileID: 6118492421801943360, guid: d6929522ac34a27409d13e4d3758e776, type: 3}
+  colors:
+  - {r: 1, g: 0.94259155, b: 0, a: 1}
+  - {r: 1, g: 0.6443302, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.42510676, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.15447235, a: 1}
+  - {r: 0, g: 0.9167206, b: 1, a: 1}
+  particle: {fileID: 2598288160320133565, guid: cb97787eedf0fd64ebfd796ed8140455, type: 3}
+  trailMagnet: {fileID: 3616130204699019450, guid: 23f54426f3fcd0b4cb75c585549d1b76, type: 3}

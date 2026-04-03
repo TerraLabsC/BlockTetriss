@@ -1,13 +1,16 @@
+using CartoonFX;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Board : MonoBehaviour
 {
     public const int Size = 15;
     [SerializeField] private Cell cellPrefab;
     [SerializeField] private Transform cellTransform;
-    
+
     private readonly Cell[,] cells = new Cell[Size, Size];
     private readonly int[,] data = new int[Size, Size];
     private readonly List<Vector2Int> hoverPoints = new();
@@ -30,18 +33,19 @@ public class Board : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CountText;
 
     [SerializeField] private GameObject zone;
-    
+
     [SerializeField] private Blocks blocks;
 
     private bool isGameOver = false;
     private bool isWin = false;
     private bool isLose = false;
+    private bool isClearing = false;
 
     [SerializeField] private int winScore = 10000000;
 
     private void Start()
     {
-        for(var r = 0; r < Size; ++r)
+        for (var r = 0; r < Size; ++r)
         {
             for (var c = 0; c < Size; ++c)
             {
@@ -50,7 +54,7 @@ public class Board : MonoBehaviour
                 cells[r, c].Hide();
             }
         }
-        
+
         UpdateScoreText();
     }
 
@@ -59,12 +63,10 @@ public class Board : MonoBehaviour
         CheckGameState();
     }
 
-    /// <summary>
-    /// Проверяет состояние игры (победа/поражение)
-    /// </summary>
     private void CheckGameState()
     {
         if (isGameOver) return;
+        if (isClearing) return;
 
         if (score >= winScore && !isWin)
         {
@@ -77,13 +79,10 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Проверяет, может ли блок быть размещён в данной позиции на поле
-    /// </summary>
     public bool CanPlace(Vector2Int point, int polyominoIndex)
     {
-        if (isGameOver) return false;
-        
+        if (isGameOver || isClearing) return false;
+
         var polyomino = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
@@ -96,7 +95,7 @@ public class Board : MonoBehaviour
                 {
                     var checkPoint = point + new Vector2Int(c, r);
 
-                    if (checkPoint.x < 0 || Size <= checkPoint.x || 
+                    if (checkPoint.x < 0 || Size <= checkPoint.x ||
                         checkPoint.y < 0 || Size <= checkPoint.y)
                     {
                         return false;
@@ -115,16 +114,16 @@ public class Board : MonoBehaviour
 
     public void Hover(Vector2Int point, int polyominoIndex, int colorIndex)
     {
-        if (isGameOver) return;
-        
+        if (isGameOver || isClearing) return;
+
         var polyomino = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
-        
+
         Unhover();
         HoverPoints(point, polyominoRows, poluominoColumns, polyomino);
-        
-        if(hoverPoints.Count > 0)
+
+        if (hoverPoints.Count > 0)
         {
             Hover(colorIndex);
         }
@@ -138,8 +137,8 @@ public class Board : MonoBehaviour
             {
                 if (polyonimo[r, c] > 0)
                 {
-                    var hoverPont = point + new Vector2Int(c, r); 
-                    if(isValidPoint(hoverPont) == false)
+                    var hoverPont = point + new Vector2Int(c, r);
+                    if (isValidPoint(hoverPont) == false)
                     {
                         hoverPoints.Clear();
                         return;
@@ -180,41 +179,36 @@ public class Board : MonoBehaviour
 
     public bool Place(Vector2Int point, int polyominoIndex, int colorIndex)
     {
-        if (isGameOver) return false;
-        
+        if (isGameOver || isClearing) return false;
+
         var polyomino = Polyominus.Get(polyominoIndex);
         var polyominoRows = polyomino.GetLength(0);
         var poluominoColumns = polyomino.GetLength(1);
-        
+
         Unhover();
         HoverPoints(point, polyominoRows, poluominoColumns, polyomino);
-        
+
         if (hoverPoints.Count > 0)
         {
-            Place(point, poluominoColumns, polyominoRows, colorIndex);
+            foreach (var hoverPoint in hoverPoints)
+            {
+                data[hoverPoint.y, hoverPoint.x] = 1;
+                cells[hoverPoint.y, hoverPoint.x].SetColor(colorIndex);
+                cells[hoverPoint.y, hoverPoint.x].Normal();
+            }
+            hoverPoints.Clear();
+
+            StartCoroutine(ClearSequentially(point, poluominoColumns, polyominoRows));
             return true;
         }
-        
+
         return false;
     }
 
-    private void Place(Vector2Int point, int poluominoColumns, int polyominoRows, int colorIndex)
+    private IEnumerator ClearSequentially(Vector2Int point, int poluominoColumns, int polyominoRows)
     {
-        foreach (var hoverPoint in hoverPoints)
-        {
-            data[hoverPoint.y, hoverPoint.x] = 1;
-            cells[hoverPoint.y, hoverPoint.x].SetColor(colorIndex);
-            cells[hoverPoint.y, hoverPoint.x].Normal();
-        }
-        
-        ClearFullLines(point, poluominoColumns, polyominoRows);
-        hoverPoints.Clear();
+        isClearing = true;
 
-        CheckGameState();
-    }
-
-    private void ClearFullLines(Vector2Int point, int poluominoColumns, int polyominoRows)
-    {
         var fromColums = Mathf.Max(0, point.x);
         var toColumsExclusive = Mathf.Min(Size, point.x + poluominoColumns);
         var fromRow = Mathf.Max(0, point.y);
@@ -226,23 +220,53 @@ public class Board : MonoBehaviour
         const int squareSize = 5;
         int offset = Size - squareSize;
 
-        int squaresCleared = 0;
-        
-        if (CheckSquare(0, 0, squareSize)) squaresCleared++; // Левый нижний
-        if (CheckSquare(0, offset, squareSize)) squaresCleared++; // Левый верхний
-        if (CheckSquare(offset, 0, squareSize)) squaresCleared++; // Правый нижний
-        if (CheckSquare(offset, offset, squareSize)) squaresCleared++; // Правый верхний
-        if (CheckSquare(offset / 2, offset / 2, squareSize)) squaresCleared++; // Центральный
+        HashSet<Vector2Int> cellsToClear = new HashSet<Vector2Int>();
 
-        if (CheckSquare(offset / 2, offset, squareSize)) squaresCleared++; // Центральный верхний
-        if (CheckSquare(offset, offset / 2, squareSize)) squaresCleared++; // Центральный правый
-        if (CheckSquare(0, offset / 2, squareSize)) squaresCleared++; // Центральный левый
-        if (CheckSquare(offset / 2, 0, squareSize)) squaresCleared++; // Центральный нижний
+        foreach (var c in fullLineColums)
+        {
+            for (int r = 0; r < Size; r++)
+                cellsToClear.Add(new Vector2Int(c, r));
+        }
+
+        foreach (var r in fullLineRows)
+        {
+            for (int c = 0; c < Size; c++)
+                cellsToClear.Add(new Vector2Int(c, r));
+        }
+
+        int squaresCleared = 0;
+        Vector2Int[] squarePositions = new Vector2Int[]
+        {
+            new Vector2Int(0, 0),
+            new Vector2Int(0, offset),
+            new Vector2Int(offset, 0),
+            new Vector2Int(offset, offset),
+            new Vector2Int(offset / 2, offset / 2),
+            new Vector2Int(offset / 2, offset),
+            new Vector2Int(offset, offset / 2),
+            new Vector2Int(0, offset / 2),
+            new Vector2Int(offset / 2, 0)
+        };
+
+        foreach (var pos in squarePositions)
+        {
+            if (IsSquareFull(pos.x, pos.y, squareSize))
+            {
+                squaresCleared++;
+                for (int r = pos.y; r < pos.y + squareSize; r++)
+                {
+                    for (int c = pos.x; c < pos.x + squareSize; c++)
+                    {
+                        cellsToClear.Add(new Vector2Int(c, r));
+                    }
+                }
+            }
+        }
 
         if (squaresCleared > 0)
         {
             int squarePoints = Random.Range(minSquareScore, maxSquareScore + 1);
-            AddScore(squarePoints * squaresCleared);
+            AddScoreWithoutGameCheck(squarePoints * squaresCleared);
             Debug.Log($"Квадраты: +{squarePoints * squaresCleared} очков ({squaresCleared} квадратов)");
         }
 
@@ -250,12 +274,39 @@ public class Board : MonoBehaviour
         if (linesCleared > 0)
         {
             int linePoints = Random.Range(minLineScore, maxLineScore + 1);
-            AddScore(linePoints * linesCleared);
+            AddScoreWithoutGameCheck(linePoints * linesCleared);
             Debug.Log($"Линии: +{linePoints * linesCleared} очков ({linesCleared} линий)");
         }
 
-        ClearFullLinesColums();
-        ClearFullLinesRows();
+        foreach (var cellPos in cellsToClear)
+        {
+            int x = cellPos.x;
+            int y = cellPos.y;
+            if (data[y, x] != 0)
+            {
+                if (cells[y, x].particle != null)
+                {
+                    var perticles = Instantiate(cells[y, x].particle, cells[y, x].transform.position, Quaternion.identity);
+                    perticles.Play();
+                    perticles.gameObject.GetComponent<CFXR_Effect>().cameraShake.enabled = true;
+
+                    var perticlesTraile = Instantiate(cells[y, x].trailMagnet, cells[y, x].transform.position, Quaternion.identity);
+                    cells[y, x].PariclesColor();
+                    perticlesTraile.Play();
+                }
+
+                data[y, x] = 0;
+                cells[y, x].Hide();
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
+        fullLineColums.Clear();
+        fullLineRows.Clear();
+
+        isClearing = false;
+
+        CheckGameState();
     }
 
     private void FullLineColums(int fromColums, int toColumsExclusive)
@@ -269,7 +320,7 @@ public class Board : MonoBehaviour
                 if (data[r, c] == 0)
                 {
                     isFullLine = false;
-                    break; 
+                    break;
                 }
             }
             if (isFullLine == true)
@@ -300,67 +351,30 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void ClearFullLinesColums()
+    private bool IsSquareFull(int startX, int startY, int size)
     {
-        foreach(var c in fullLineColums)
-        {
-            for (var r = 0; r < Size; ++r)
-            {
-                data[r, c] = 0;
-                cells[r, c].Hide();
-            }
-        }
-    }
-
-    private void ClearFullLinesRows()
-    {
-        foreach (var r in fullLineRows)
-        {
-            for (var c = 0; c < Size; ++c)
-            {
-                data[r, c] = 0;
-                cells[r, c].Hide();
-            }
-        }
-    }
-
-    private bool CheckSquare(int startX, int startY, int size)
-    {
-        bool isFull = true;
         for (var r = startY; r < startY + size; ++r)
         {
             for (var c = startX; c < startX + size; ++c)
             {
                 if (data[r, c] == 0)
-                {
-                    isFull = false;
-                    break;
-                }
+                    return false;
             }
-            if (!isFull) break;
         }
+        return true;
+    }
 
-        if (isFull)
-        {
-            for (var r = startY; r < startY + size; ++r)
-            {
-                for (var c = startX; c < startX + size; ++c)
-                {
-                    data[r, c] = 0;
-                    cells[r, c].Hide();
-                }
-            }
-            return true;
-        }
-        
-        return false;
+    private void AddScoreWithoutGameCheck(int points)
+    {
+        score += points;
+        UpdateScoreText();
     }
 
     private void AddScore(int points)
     {
         score += points;
         UpdateScoreText();
-        
+
         if (score >= winScore && !isGameOver)
         {
             Win();
@@ -382,10 +396,7 @@ public class Board : MonoBehaviour
         score = 0;
         UpdateScoreText();
     }
-    
-    /// <summary>
-    /// Очищает всё поле (для новой игры)
-    /// </summary>
+
     public void ClearBoard()
     {
         for (var r = 0; r < Size; ++r)
@@ -397,29 +408,26 @@ public class Board : MonoBehaviour
             }
         }
     }
-    
-    /// <summary>
-    /// Обработка победы
-    /// </summary>
+
     private void Win()
     {
         if (isGameOver) return;
-        
+
         isGameOver = true;
         isWin = true;
-        
+
         Debug.Log($"ПОБЕДА! Достигнуто {winScore} очков! Текущий счет: {score}");
-        
+
         if (CanvasWinAndLose != null)
         {
             CanvasWinAndLose.SetActive(true);
-            
+
             if (textMeshProUGUIWinAndLose != null)
             {
                 win.SetActive(true);
                 lose.SetActive(false);
             }
-            
+
             if (CountText != null)
             {
                 CountText.text = $"Ваш счет: {score}";
@@ -428,28 +436,25 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Обработка поражения
-    /// </summary>
     private void Lose()
     {
         if (isGameOver) return;
-        
+
         isGameOver = true;
         isLose = true;
-        
+
         Debug.Log($"ПОРАЖЕНИЕ! Нет доступных ходов! Текущий счет: {score}");
-        
+
         if (CanvasWinAndLose != null)
         {
             CanvasWinAndLose.SetActive(true);
-            
+
             if (textMeshProUGUIWinAndLose != null)
             {
                 win.SetActive(false);
                 lose.SetActive(true);
             }
-            
+
             if (CountText != null)
             {
                 CountText.text = $"Ваш счет: {score}";
@@ -458,22 +463,22 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Сброс игры (для рестарта)
-    /// </summary>
     public void ResetGame()
     {
+        StopAllCoroutines();
+        isClearing = false;
+
         ClearBoard();
         ResetScore();
         isGameOver = false;
         isWin = false;
         isLose = false;
-        
+
         if (CanvasWinAndLose != null)
         {
             CanvasWinAndLose.SetActive(false);
         }
-        
+
         if (blocks != null)
         {
             blocks.ResetBlocks();

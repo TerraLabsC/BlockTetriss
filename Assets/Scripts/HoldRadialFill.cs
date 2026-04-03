@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class HoldRadialFill : MonoBehaviour
 {
     [Header("Компоненты")]
-    [SerializeField] private Image radialImage; // Круг с Filled -> Radial 360
+    [SerializeField] private Image radialImage;
 
     [Header("Настройки")]
-    [SerializeField] private float fillSpeed = 1f; // Скорость заполнения
-    [SerializeField] private UnityEvent onFillComplete; // Событие при полном заполнении
+    [SerializeField] private float fillSpeed = 1f;
+    [SerializeField] private UnityEvent onFillComplete;
 
     private bool isHolding = false;
     private float currentFill = 0f;
@@ -26,34 +26,26 @@ public class HoldRadialFill : MonoBehaviour
 
     private void Update()
     {
-        // Проверяем зажата ли левая кнопка мыши
-        if (Input.GetMouseButton(0)) // 0 - левая кнопка
+        if (Input.GetMouseButton(0))
         {
-            // Двигаем круг за мышкой
             rectTransform.position = Input.mousePosition;
 
-            // Если только начали зажимать - показываем круг
             if (!isHolding)
             {
                 ShowRadial();
             }
 
-            // Увеличиваем заполнение
             currentFill += fillSpeed * Time.deltaTime;
             currentFill = Mathf.Clamp01(currentFill);
             radialImage.fillAmount = currentFill;
 
-            // Проверяем на полное заполнение
             if (currentFill >= 1f)
             {
                 onFillComplete?.Invoke();
-                // Можно либо скрыть, либо оставить для следующего нажатия
-                // HideRadial(); // Раскомментируйте если нужно скрывать после завершения
             }
         }
-        else // Кнопка не зажата
+        else
         {
-            // Если держали и отпустили - скрываем и обнуляем
             if (isHolding)
             {
                 HideRadial();
@@ -77,7 +69,6 @@ public class HoldRadialFill : MonoBehaviour
         radialImage.fillAmount = 0f;
     }
 
-    // Публичный метод для принудительного завершения
     public void ForceComplete()
     {
         if (isHolding)
